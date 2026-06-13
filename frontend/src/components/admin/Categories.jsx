@@ -7,7 +7,7 @@ const Categories = () => {
     const [categoryName, setCategoryName] = useState("");
     const [categoryDescription, setCategoryDescription] = useState("");
     const [categories, setCategories] = useState([]);
-
+    const [editingCategory, setEditingCategory] = useState(null);
 
 
     useEffect(() => {
@@ -71,6 +71,38 @@ const Categories = () => {
 
     }
 
+    const handleUpdate = async () => {
+        try {
+            const response = await axios.put(
+                `http://localhost:3000/api/category/update/${editingCategory._id}`,
+                {
+                    categoryName: editingCategory.categoryName,
+                    categoryDescription: editingCategory.categoryDescription,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("pos-token")}`,
+                    },
+                }
+            );
+
+            if (response.data.success) {
+                alert("Category updated successfully");
+
+                setCategories(prev =>
+                    prev.map(cat =>
+                        cat._id === editingCategory._id
+                            ? response.data.category
+                            : cat
+                    )
+                );
+
+                setEditingCategory(null); // modal kapat
+            }
+        } catch (error) {
+            console.log("UPDATE ERROR:", error.response?.data || error);
+        }
+    };
     const handleDelete = async (id) => {
         try {
             const response = await axios.delete(
@@ -168,7 +200,9 @@ const Categories = () => {
                                         <td className="p-3"> {item.categoryName} </td>
                                         <td className="p-3"> {item.categoryDescription} </td>
                                         <td className="p-3 space-x-3">
-                                            <button className="text-white p-1.5 rounded-xl hover:underline bg-blue-500">
+                                            <button className="text-white p-1.5 rounded-xl hover:underline bg-blue-500"
+                                                onClick={() => setEditingCategory(item)}
+                                            >
                                                 Edit
                                             </button>
                                             <button
@@ -189,6 +223,43 @@ const Categories = () => {
 
             </form>
 
+            { //Edit Page
+                editingCategory && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+                        <div className="bg-white  p-6 rounded-xl w-[500px]">
+                            <h2 className='flex justify-center items-center mb-4 font-bold text-2xl'>Edit Category</h2>
+
+                            <div className='flex gap-4'>
+                                <input
+                                    className='px-2 py-1 rounded-lg'
+                                    value={editingCategory?.categoryName || ""}
+                                    onChange={(e) =>
+                                        setEditingCategory({
+                                            ...editingCategory,
+                                            categoryName: e.target.value,
+                                        })
+                                    }
+                                />
+
+                                <input
+                                    className='px-2 py-1 rounded-lg'
+                                    value={editingCategory?.categoryDescription || ""}
+                                    onChange={(e) =>
+                                        setEditingCategory({
+                                            ...editingCategory,
+                                            categoryDescription: e.target.value,
+                                        })
+                                    }
+                                />
+                            </div>
+
+                            <button className='flex mx-auto mt-4 bg-green-600 text-white rounded-xl px-2 py-1' onClick={handleUpdate}>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     );
 };

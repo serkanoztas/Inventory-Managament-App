@@ -42,6 +42,19 @@ const getCategory = async (req, res) => {
     }
 }
 
+const updateCategory = async (req, res) => {
+    try {
+        const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json({ success: true, category });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+
+}
+
 const deleteCategory = async (req, res) => {
     try {
         const { id } = req.params;
@@ -67,6 +80,7 @@ const deleteCategory = async (req, res) => {
 export default {
     addCategory,
     getCategory,
+    updateCategory,
     deleteCategory
 };
 
