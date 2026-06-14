@@ -5,6 +5,8 @@ import authRoutes from './routes/authRoutes.js';
 import dotenv from "dotenv";
 import categoryRoutes from "./routes/categoryRoutes.js"
 import supplierRoutes from "./routes/supplierRoutes.js"
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 
@@ -15,7 +17,10 @@ app.use(express.json());
 //Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/category', categoryRoutes);
-app.use('/api/supplier', supplierRoutes)
+app.use('/api/supplier', supplierRoutes);
+app.use('/api/product', productRoutes);
+app.use('/api/user', userRoutes);
+
 
 
 app.listen(process.env.PORT, () => {

@@ -12,6 +12,7 @@ const Suppliers = () => {
     const [supplierPhone, setSupplierPhone] = useState("");
     const [supplierAddress, setSupplierAddresss] = useState("");
 
+
     useEffect(() => {
         const fetchSuppliers = async () => {
             setLoading(true);
