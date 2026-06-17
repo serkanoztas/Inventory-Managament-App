@@ -11,6 +11,12 @@ const Suppliers = () => {
     const [supplierEmail, setSupplierEmail] = useState("");
     const [supplierPhone, setSupplierPhone] = useState("");
     const [supplierAddress, setSupplierAddresss] = useState("");
+    const [search, setSearch] = useState("");
+    const filteredSuppliers = suppliers.filter((supplier) =>
+        supplier.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    );
 
 
     useEffect(() => {
@@ -143,7 +149,11 @@ const Suppliers = () => {
             <h1 className='font-bold text-3xl'>Supplier Managament</h1>
 
             <div className='justify-between flex'>
-                <input className='outline-none rounded-xl sm:w-2/5 md:w-3/5 lg:w-4/5 p-2 bg-white' type="text" placeholder='Search suppliers' />
+                <input className='outline-none rounded-xl sm:w-2/5 md:w-3/5 lg:w-4/5 p-2 bg-white'
+                    type="text" placeholder='Search suppliers'
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
                 <button onClick={() => setShowModel(true)} className='text-white bg-blue-500 rounded-xl max-w-24 px-2 text-sm cursor-pointer py-1'>Add Supplier</button>
             </div>
 
@@ -163,7 +173,7 @@ const Suppliers = () => {
                     </thead>
 
                     <tbody>
-                        {Array.isArray(suppliers) && suppliers.filter(Boolean).map((item) => (
+                        {Array.isArray(filteredSuppliers) && filteredSuppliers.filter(Boolean).map((item) => (
                             <tr key={item._id} className="border-t hover:bg-gray-50 transition">
                                 <td className="p-3 text-xs"> {item._id} </td>
                                 <td className="p-3">{item.name}</td>

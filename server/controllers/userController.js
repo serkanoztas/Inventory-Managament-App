@@ -103,9 +103,39 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const updateMyProfile = async (req, res) => {
+    try {
+        const { password, ...rest } = req.body;
+
+        const updateData = { ...rest };
+
+        if (password) {
+            updateData.password = await bcrypt.hash(password, 10);
+        }
+
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            updateData,
+            { new: true }
+        ).select("-password");
+
+        res.json({
+            success: true,
+            user,
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
 export default {
     addUser,
     getUsers,
     updateUser,
     deleteUser,
+    updateMyProfile
 };

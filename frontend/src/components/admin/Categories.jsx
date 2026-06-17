@@ -8,6 +8,13 @@ const Categories = () => {
     const [categoryDescription, setCategoryDescription] = useState("");
     const [categories, setCategories] = useState([]);
     const [editingCategory, setEditingCategory] = useState(null);
+    const [search, setSearch] = useState("");
+    const filteredCategories = categories.filter((category) =>
+        category.categoryName
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    );
+
 
 
     useEffect(() => {
@@ -180,6 +187,8 @@ const Categories = () => {
                         className='w-full border-gray-400 bg-white border py-1 px-2 rounded-md'
                         type="text"
                         placeholder='Search category name'
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                     />
 
                     <div className="overflow-x-auto bg-white rounded-xl shadow-sm border mt-6">
@@ -195,24 +204,25 @@ const Categories = () => {
                             </thead>
 
                             <tbody>
-                                {Array.isArray(categories) && categories.filter(Boolean).map((item) => (
-                                    <tr key={item._id} className="border-t hover:bg-gray-50 transition">
-                                        <td className="p-3"> {item.categoryName} </td>
-                                        <td className="p-3"> {item.categoryDescription} </td>
-                                        <td className="p-3 space-x-3">
-                                            <button className="text-white p-1.5 rounded-xl hover:underline bg-blue-500"
-                                                onClick={() => setEditingCategory(item)}
-                                            >
-                                                Edit
-                                            </button>
-                                            <button
-                                                className="bg-red-500 text-white p-1.5 rounded-xl  hover:underline"
-                                                onClick={() => handleDelete(item._id)}>
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {Array.isArray(filteredCategories) &&
+                                    filteredCategories.filter(Boolean).map((item) => (
+                                        <tr key={item._id} className="border-t hover:bg-gray-50 transition">
+                                            <td className="p-3"> {item.categoryName} </td>
+                                            <td className="p-3"> {item.categoryDescription} </td>
+                                            <td className="p-3 space-x-3">
+                                                <button className="text-white p-1.5 rounded-xl hover:underline bg-blue-500"
+                                                    onClick={() => setEditingCategory(item)}
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className="bg-red-500 text-white p-1.5 rounded-xl  hover:underline"
+                                                    onClick={() => handleDelete(item._id)}>
+                                                    Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
 
                             </tbody>
 

@@ -12,4 +12,6 @@ router.put("/update/:id", authMiddleware, userController.updateUser);
 
 router.delete("/delete/:id", authMiddleware, userController.deleteUser);
 
+router.put("/me", authMiddleware, userController.updateMyProfile);
+
 export default router;

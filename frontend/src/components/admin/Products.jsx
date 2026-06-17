@@ -13,6 +13,11 @@ const Products = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -163,6 +168,8 @@ const Products = () => {
           className='outline-none rounded-xl w-full sm:w-3/4 p-2 bg-white border'
           type="text"
           placeholder='Search products by name...'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
         <button
@@ -188,7 +195,7 @@ const Products = () => {
           </thead>
 
           <tbody>
-            {products.map((item) => (
+            {filteredProducts.map((item) => (
               <tr key={item._id} className="border-t hover:bg-gray-50 transition">
 
                 <td className="p-3">{item.name}</td>

@@ -11,6 +11,10 @@ import Orders from './components/admin/Orders';
 import Suppliers from './components/admin/Suppliers';
 import Users from './components/admin/Users';
 import Profile from './components/admin/Profile';
+import CustomerDashboard from "./pages/CustomerDashboard";
+import CustomerProducts from "./components/customer/CustomerProducts";
+import CustomerOrders from './components/customer/CustomerOrders';
+import CustomerProfile from './components/customer/CustomerProfile';
 
 function App() {
 
@@ -18,6 +22,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Root />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/admin-dashboard" element={<ProtectedRoutes requiredRole={['admin']}> <Dashboard /> </ProtectedRoutes>}>
           <Route index element={<MainDashboard />} />
           <Route path="categories" element={<Categories />} />
@@ -27,11 +32,13 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="profile" element={<Profile />} />
         </Route>
-        <Route path="/customer-dashboard" element={<h1>Customer</h1>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/unauthorized" element={<h1>Unauthorized</h1>} />
+        <Route path="/customer-dashboard" element={<ProtectedRoutes requiredRole={['customer']}><CustomerDashboard /></ProtectedRoutes>}>
+          <Route index element={<CustomerProducts />} />
+          <Route path="orders" element={<CustomerOrders />} />
+          <Route path="profile" element={<CustomerProfile />} />
+        </Route>
       </Routes>
-    </Router>
+    </Router >
   )
 }
 

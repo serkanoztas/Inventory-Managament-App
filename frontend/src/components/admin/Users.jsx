@@ -12,6 +12,12 @@ const Users = () => {
   const [role, setRole] = useState("customer");
 
   const [editingUser, setEditingUser] = useState(null);
+  const [search, setSearch] = useState("");
+  const filteredUsers = users.filter((user) =>
+    user.name
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -180,7 +186,10 @@ const Users = () => {
         <div className='flex-1 bg-white rounded-xl shadow-sm border p-6 mt-8'>
 
           <div>
-            <input className='w-full p-2 border rounded-xl outline-none' placeholder='Searh Users...' type="text" />
+            <input className='w-full p-2 border rounded-xl outline-none' placeholder='Searh Users...' type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
 
           <div className="overflow-x-auto mt-6">
@@ -199,7 +208,7 @@ const Users = () => {
               </thead>
 
               <tbody>
-                {users.map((item) => (
+                {filteredUsers.map((item) => (
                   <tr
                     key={item._id}
                     className="border-t hover:bg-gray-50 transition"

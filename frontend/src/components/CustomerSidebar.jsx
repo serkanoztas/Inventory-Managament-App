@@ -4,7 +4,7 @@ import { FaBox, FaCog, FaHome, FaShoppingCart, FaSignOutAlt, FaTable, FaTruck, F
 import { NavLink, useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar = () => {
+const CustomerSidebar = () => {
 
     const { logout } = useAuth();
     const navigate = useNavigate();
@@ -16,13 +16,10 @@ const Sidebar = () => {
 
 
     const menuItems = [
-        { name: 'Dashboard', path: '/admin-dashboard', icon: <FaHome />, isParent: false },
-        { name: 'Products', path: '/admin-dashboard/products', icon: <FaBox />, isParent: false },
-        { name: 'Categories', path: '/admin-dashboard/categories', icon: <FaTable />, isParent: false },
-        { name: 'Orders', path: '/admin-dashboard/orders', icon: <FaShoppingCart />, isParent: false },
-        { name: 'Suppliers', path: '/admin-dashboard/suppliers', icon: <FaTruck />, isParent: false },
-        { name: 'Users', path: '/admin-dashboard/users', icon: <FaUsers />, isParent: false },
-        { name: 'Profile', path: '/admin-dashboard/profile', icon: <FaCog />, isParent: false }
+
+        { name: 'Products', path: '/customer-dashboard', icon: <FaBox />, isParent: false },
+        { name: 'Orders', path: '/customer-dashboard/orders', icon: <FaShoppingCart />, isParent: false },
+        { name: 'Profile', path: '/customer-dashboard/profile', icon: <FaCog />, isParent: false }
     ];
 
     return (
@@ -58,4 +55,4 @@ const Sidebar = () => {
     )
 }
 
-export default Sidebar
+export default CustomerSidebar
